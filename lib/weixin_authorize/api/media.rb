@@ -81,6 +81,59 @@ module WeixinAuthorize
         http_post(upload_image_url, {media: file}, {type: 'image'}, 'file')
       end
 
+      #####################################################
+      # 2015-10-15 by Helperhaps
+
+      # 获取素材总数
+      # http请求方式: GET
+      # https://api.weixin.qq.com/cgi-bin/material/get_materialcount?access_token=ACCESS_TOKEN
+      def materials_count
+        url = "#{material_base_url}/get_materialcount"
+        http_get(url)
+      end
+
+      # 获取素材列表
+      # http请求方式: POST
+      # https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token=ACCESS_TOKEN
+      # 素材的类型，图片（image）、视频（video）、语音 （voice）、图文（news）
+      def materials_list(type, offset=0,count=20)
+        url = "#{material_base_url}/batchget_material"
+        http_post(url, {type: type, offset: offset, count: count})
+      end
+
+      # 获取永久素材
+      # http请求方式: POST,https调用
+      # https://api.weixin.qq.com/cgi-bin/material/get_material?access_token=ACCESS_TOKEN
+      def get_material(media_id)
+        url = "#{material_base_url}/get_material"
+        http_post(url, {media_id: media_id})
+      end
+
+      # 删除永久素材
+      # http请求方式: POST
+      # https://api.weixin.qq.com/cgi-bin/material/del_material?access_token=ACCESS_TOKEN
+      def del_material(media_id)
+        url = "#{material_base_url}/del_material"
+        http_post(url, {media_id: media_id})
+      end
+
+
+      # 新增永久图文素材
+      # http请求方式: POST
+      # https://api.weixin.qq.com/cgi-bin/material/add_news?access_token=ACCESS_TOKEN
+      def add_news
+        url = "#{material_base_url}/add_news"
+      end
+
+      # 新增其他类型永久素材
+      # http请求方式: POST
+      # https://api.weixin.qq.com/cgi-bin/material/add_material?access_token=ACCESS_TOKEN
+      def add_media(media, media_type)
+        file = process_file(media)
+        url = "#{material_base_url}/add_material"
+        http_post(url, {media: file, type: media_type})
+      end
+
       private
 
         def media_base_url
@@ -142,6 +195,13 @@ module WeixinAuthorize
 
         def content_type(media_path)
           MIME::Types.type_for(media_path).first.content_type
+        end
+
+        ###################################################
+        # 2015-10-15 by Helperhaps
+
+        def material_base_url
+          "/material"
         end
 
     end
