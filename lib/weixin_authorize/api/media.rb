@@ -106,7 +106,7 @@ module WeixinAuthorize
       # https://api.weixin.qq.com/cgi-bin/material/get_material?access_token=ACCESS_TOKEN
       def get_material(media_id)
         url = "#{material_base_url}/get_material"
-        http_post(url, {media_id: media_id})
+        http_post(url, {"media_id" => media_id})
       end
 
       # 删除永久素材
@@ -131,7 +131,7 @@ module WeixinAuthorize
       def add_media(media, media_type)
         file = process_file(media)
         url = "#{material_base_url}/add_material"
-        http_post(url, {media: file, type: media_type})
+        http_post(url, {"media" => file, "type" => media_type})
       end
 
       private
