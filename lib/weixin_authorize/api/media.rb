@@ -109,6 +109,15 @@ module WeixinAuthorize
         http_post(url, {"media_id" => media_id})
       end
 
+      def material_url(media_id)
+        material_url = WeixinAuthorize.endpoint_url("plain", "#{material_base_url}/get_material")
+        params = URI.encode_www_form("access_token" => get_access_token,
+                                     "media_id"     => media_id)
+        material_url += "?#{params}"
+        material_url
+      end
+
+
       # 删除永久素材
       # http请求方式: POST
       # https://api.weixin.qq.com/cgi-bin/material/del_material?access_token=ACCESS_TOKEN
