@@ -76,6 +76,11 @@ module WeixinAuthorize
       WeixinAuthorize.http_post_without_token(url, post_body, url_params, endpoint)
     end
 
+    def http_post_for_bin(url, post_body={}, url_params={}, endpoint="plain")
+      url_params = access_token_param.merge(url_params)
+      WeixinAuthorize.http_post_without_token_for_bin(url, post_body, url_params, endpoint)
+    end
+
     private
 
       def access_token_param

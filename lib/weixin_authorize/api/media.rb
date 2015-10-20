@@ -109,12 +109,9 @@ module WeixinAuthorize
         http_post(url, {"media_id" => media_id})
       end
 
-      def material_url(media_id)
-        material_url = WeixinAuthorize.endpoint_url("plain", "#{material_base_url}/get_material")
-        params = URI.encode_www_form("access_token" => get_access_token,
-                                     "media_id"     => media_id)
-        material_url += "?#{params}"
-        material_url
+      def get_material_bin(media_id)
+        url = "#{material_base_url}/get_material"
+        http_post_for_bin(url, {"media_id" => media_id})
       end
 
 

@@ -50,6 +50,14 @@ module WeixinAuthorize
       load_json(resource(post_api_url).post(post_body, params: url_params))
     end
 
+    def http_post_without_token_for_bin(url, post_body={}, url_params={}, endpoint="plain")
+      api_url = endpoint_url(endpoint, url)
+      if endpoint == "plain" || endpoint == CUSTOM_ENDPOINT
+        post_body = JSON.dump(post_body)
+      end
+      resource(api_url).post(post_body, params: url_params)
+    end
+
     def resource(url)
       RestClient::Resource.new(url, rest_client_options)
     end
